@@ -1,0 +1,9 @@
+﻿@model HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+<h2 class="well" style="font-family:'Adobe Arabic';font-size:24px;">@ErrorHandler.GetError(Model.Exception)</h2>
+

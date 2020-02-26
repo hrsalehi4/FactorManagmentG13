@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+@section ViewScripts
+   {
+    <script src="~/Scripts/Commodity/Index.js"></script>
+}
+<h2 class="well">مشخصات سیگنال</h2>
+<div class="text-center">
+    <button type="button" id="BtnRegister" class="btn btn-primary" data-toggle="modal" data-target="#FormCommodityModal" onclick="document.forms[0].reset()">ثبت جدید</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FormCommoditySearchModal">جستجو</button>
+    <button type="button" class="btn btn-danger" id="BtnExpensive"><span class="glyphicon glyphicon-star"></span>&nbsp;انتخاب سیگنال های گران</button>
+</div>
+<br />
+<div id="ParitalDiv"></div>
+<div id="FormCommodity">
+    
+</div>
+
+<div id="FormCommoditySearch" class="text-center">
+
+</div>
+<div id="DivCommodity" class="text-center">
+
+</div>
+

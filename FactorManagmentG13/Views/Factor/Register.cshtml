@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+@section ViewScripts
+{
+    <script src="~/Scripts/Factor/Register.js"></script>
+}
+<input type="hidden" id="FactorData" value='@Html.Raw(TempData["FactorData"])' />
+<div class="text-center" style="font-family:'Adobe Arabic';">
+    <div class="well" style="text-align:right">
+        <label for="FactorCode">کد فاکتور:</label>
+        <input id="FactorCode" name="FactorCode" type="text" />
+        <label for="Customer">مشتری:</label>
+        <select id="Customer" name="Customer"></select>
+        <img style="float:left;width:35px;height:35px;cursor:pointer;" src="~/Images/shop-cart-add-icon.png" id="btnAdd" />
+    </div>
+    <div class="well">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <td style="width:15%;">کد سیگنال</td>
+                    <td style="width:30%;">شرکت</td>
+                    <td style="width:15%;">قیمت</td>
+                    <td style="width:15%;">تعداد</td>
+                    <td style="width:15%;">قیمت کل</td>
+                    <td style="width:10%;">حذف</td>
+                </tr>
+            </thead>
+            <tbody id="BodyData"></tbody>
+        </table>
+
+        <button type="button" id="BtnSave" class="btn btn-primary">ذخیره</button>
+
+        <datalist id="ListComCode">
+         </datalist>
+    </div>
+</div>
+

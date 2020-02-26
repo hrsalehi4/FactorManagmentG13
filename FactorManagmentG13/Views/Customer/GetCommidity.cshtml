@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <title>سیگنال ها</title>
+    <script>
+        window.onload = Load;
+        function Load()
+        {
+            var ListCommodity = JSON.parse('@Html.Raw(ViewBag.ListCommodity)');
+            MyGrid(ListCommodity, DivCommodity, [{ Data: "CommodityName", Title: "سیگنال" }, { Data: "Number", Title: "تعداد" }, { Data: "CommodityCode", Title: "کد سیگنال" }, { Data: "PriceInDay", Title: "قیمت" }], null, {RowNumber:true});
+
+        }
+    </script>
+</head>
+<body>
+    <div id="DivCommodity" style="font-family:'Adobe Arabic';margin:0 auto;width:80%;">
+
+    </div>
+</body>
+</html>

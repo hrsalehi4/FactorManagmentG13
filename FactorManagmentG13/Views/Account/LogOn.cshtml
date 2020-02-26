@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "LogOn";
+    Layout = "~/Views/Shared/_layout.cshtml";
+}
+@{
+    string val = Request["ReturnUrl"] == null ? "" : Request["ReturnUrl"];
+}
+<form action="LogOn" method="post">
+    <input type="hidden" name="ReturnUrl" value="@val">
+    
+    <table class="table table-striped" style="direction:rtl;font-family:'B Yekan';width:70%;margin:120px auto;">
+        <tr>
+            <td>کلمه کاربری:</td>
+            <td><input id="UserName" type="text" name="UserName" class="form-control" /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>رمز عبور:</td>
+            <td><input id="Password" type="password" name="Password" class="form-control" /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input id="Submit1" class="btn btn-default" type="submit" value="ورود" />
+            </td>
+            <td><input type="checkbox" id="IsRemember" name="IsRemember" />مرا بخاطر بسپار</td>
+        </tr>
+    </table>
+    <div>
+      @ViewBag.Error
+    </div>
+</form>
+
+

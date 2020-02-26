@@ -1,0 +1,522 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AccountingG13EntitiesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Commodity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommodityName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="int" Nullable="false" />
+          <Property Name="CommodityCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CommodityType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CommodityTypeDescription" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerFullName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Tel" Type="int" Nullable="false" />
+          <Property Name="Mobile" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="4000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Factor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FactorDate" Type="datetime" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="FactorCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FactorCommodity">
+          <Key>
+            <PropertyRef Name="CommodityID" />
+            <PropertyRef Name="FactorID" />
+          </Key>
+          <Property Name="CommodityID" Type="int" Nullable="false" />
+          <Property Name="FactorID" Type="int" Nullable="false" />
+          <Property Name="PriceInDay" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notifications">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="TiTle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Discription" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Date" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleDes" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tel" Type="int" Nullable="false" />
+          <Property Name="Mobile" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Commodity_CommodityType">
+          <End Role="CommodityType" Type="Self.CommodityType" Multiplicity="1" />
+          <End Role="Commodity" Type="Self.Commodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Commodity">
+              <PropertyRef Name="CommodityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factor_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Factor" Type="Self.Factor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Factor">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FactorCommodity_Commodity">
+          <End Role="Commodity" Type="Self.Commodity" Multiplicity="1" />
+          <End Role="FactorCommodity" Type="Self.FactorCommodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FactorCommodity">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FactorCommodity_Factor1">
+          <End Role="Factor" Type="Self.Factor" Multiplicity="1" />
+          <End Role="FactorCommodity" Type="Self.FactorCommodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FactorCommodity">
+              <PropertyRef Name="FactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccountingG13EntitiesModelStoreContainer">
+          <EntitySet Name="Commodity" EntityType="Self.Commodity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommodityType" EntityType="Self.CommodityType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factor" EntityType="Self.Factor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FactorCommodity" EntityType="Self.FactorCommodity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Notifications" EntityType="Self.Notifications" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Commodity_CommodityType" Association="Self.FK_Commodity_CommodityType">
+            <End Role="CommodityType" EntitySet="CommodityType" />
+            <End Role="Commodity" EntitySet="Commodity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factor_Customer" Association="Self.FK_Factor_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Factor" EntitySet="Factor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FactorCommodity_Commodity" Association="Self.FK_FactorCommodity_Commodity">
+            <End Role="Commodity" EntitySet="Commodity" />
+            <End Role="FactorCommodity" EntitySet="FactorCommodity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FactorCommodity_Factor1" Association="Self.FK_FactorCommodity_Factor1">
+            <End Role="Factor" EntitySet="Factor" />
+            <End Role="FactorCommodity" EntitySet="FactorCommodity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Roles" Association="Self.FK_UserRole_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="Self.FK_UserRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AccountingG13EntitiesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Commodity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommodityName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="CommodityTypeID" Type="Int32" Nullable="false" />
+          <Property Name="CommodityCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CommodityType" Relationship="Self.FK_Commodity_CommodityType" FromRole="Commodity" ToRole="CommodityType" />
+          <NavigationProperty Name="FactorCommodities" Relationship="Self.FK_FactorCommodity_Commodity" FromRole="Commodity" ToRole="FactorCommodity" />
+        </EntityType>
+        <EntityType Name="CommodityType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CommodityTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Commodities" Relationship="Self.FK_Commodity_CommodityType" FromRole="CommodityType" ToRole="Commodity" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerFullName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tel" Type="Int32" Nullable="false" />
+          <Property Name="Mobile" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Factors" Relationship="Self.FK_Factor_Customer" FromRole="Customer" ToRole="Factor" />
+        </EntityType>
+        <EntityType Name="Factor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FactorDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="FactorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Factor_Customer" FromRole="Factor" ToRole="Customer" />
+          <NavigationProperty Name="FactorCommodities" Relationship="Self.FK_FactorCommodity_Factor1" FromRole="Factor" ToRole="FactorCommodity" />
+        </EntityType>
+        <EntityType Name="FactorCommodity">
+          <Key>
+            <PropertyRef Name="CommodityID" />
+            <PropertyRef Name="FactorID" />
+          </Key>
+          <Property Name="CommodityID" Type="Int32" Nullable="false" />
+          <Property Name="FactorID" Type="Int32" Nullable="false" />
+          <Property Name="PriceInDay" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Commodity" Relationship="Self.FK_FactorCommodity_Commodity" FromRole="FactorCommodity" ToRole="Commodity" />
+          <NavigationProperty Name="Factor" Relationship="Self.FK_FactorCommodity_Factor1" FromRole="FactorCommodity" ToRole="Factor" />
+        </EntityType>
+        <EntityType Name="Notification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="TiTle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Discription" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleDes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.UserRole" FromRole="Roles" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tel" Type="Int32" Nullable="false" />
+          <Property Name="Mobile" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Roles" Relationship="Self.UserRole" FromRole="User" ToRole="Roles" />
+        </EntityType>
+        <Association Name="FK_Commodity_CommodityType">
+          <End Role="CommodityType" Type="Self.CommodityType" Multiplicity="1" />
+          <End Role="Commodity" Type="Self.Commodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommodityType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Commodity">
+              <PropertyRef Name="CommodityTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FactorCommodity_Commodity">
+          <End Role="Commodity" Type="Self.Commodity" Multiplicity="1" />
+          <End Role="FactorCommodity" Type="Self.FactorCommodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commodity">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FactorCommodity">
+              <PropertyRef Name="CommodityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Factor_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Factor" Type="Self.Factor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Factor">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FactorCommodity_Factor1">
+          <End Role="Factor" Type="Self.Factor" Multiplicity="1" />
+          <End Role="FactorCommodity" Type="Self.FactorCommodity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FactorCommodity">
+              <PropertyRef Name="FactorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRole">
+          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AccountingG13EntitiesEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Commodities" EntityType="Self.Commodity" />
+          <EntitySet Name="CommodityTypes" EntityType="Self.CommodityType" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Factors" EntityType="Self.Factor" />
+          <EntitySet Name="FactorCommodities" EntityType="Self.FactorCommodity" />
+          <EntitySet Name="Notifications" EntityType="Self.Notification" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Commodity_CommodityType" Association="Self.FK_Commodity_CommodityType">
+            <End Role="CommodityType" EntitySet="CommodityTypes" />
+            <End Role="Commodity" EntitySet="Commodities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FactorCommodity_Commodity" Association="Self.FK_FactorCommodity_Commodity">
+            <End Role="Commodity" EntitySet="Commodities" />
+            <End Role="FactorCommodity" EntitySet="FactorCommodities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Factor_Customer" Association="Self.FK_Factor_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Factor" EntitySet="Factors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FactorCommodity_Factor1" Association="Self.FK_FactorCommodity_Factor1">
+            <End Role="Factor" EntitySet="Factors" />
+            <End Role="FactorCommodity" EntitySet="FactorCommodities" />
+          </AssociationSet>
+          <AssociationSet Name="UserRole" Association="Self.UserRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AccountingG13EntitiesModelStoreContainer" CdmEntityContainer="AccountingG13EntitiesEntities2">
+          <EntitySetMapping Name="Commodities">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.Commodity">
+              <MappingFragment StoreEntitySet="Commodity">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CommodityTypeID" ColumnName="CommodityTypeID" />
+                <ScalarProperty Name="CommodityCode" ColumnName="CommodityCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommodityTypes">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.CommodityType">
+              <MappingFragment StoreEntitySet="CommodityType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CommodityTypeDescription" ColumnName="CommodityTypeDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerFullName" ColumnName="CustomerFullName" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factors">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.Factor">
+              <MappingFragment StoreEntitySet="Factor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FactorDate" ColumnName="FactorDate" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="FactorCode" ColumnName="FactorCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FactorCommodities">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.FactorCommodity">
+              <MappingFragment StoreEntitySet="FactorCommodity">
+                <ScalarProperty Name="CommodityID" ColumnName="CommodityID" />
+                <ScalarProperty Name="FactorID" ColumnName="FactorID" />
+                <ScalarProperty Name="PriceInDay" ColumnName="PriceInDay" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notifications">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.Notification">
+              <MappingFragment StoreEntitySet="Notifications">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TiTle" ColumnName="TiTle" />
+                <ScalarProperty Name="Discription" ColumnName="Discription" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDes" ColumnName="RoleDes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AccountingG13EntitiesModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserRole" TypeName="AccountingG13EntitiesModel.UserRole" StoreEntitySet="UserRole">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserID" ColumnName="UserID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

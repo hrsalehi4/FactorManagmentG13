@@ -1,0 +1,149 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/Index.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/Model.js"></script>
+    <script src="~/Scripts/Common.Validation.js"></script>
+    <script>
+        $(Load);
+        function Load() {
+            $(window).scroll(function () {
+                var _scrollsize = $(window).scrollTop();
+                if (_scrollsize > 50) {
+                    $("#imgarrow").fadeIn();
+                }
+                else {
+                    $("#imgarrow").fadeOut();
+
+                }
+            });
+
+            $("#imgarrow").click(function () {
+                var _scrollsize = $(window).scrollTop();
+                var _timer = setInterval(function () {
+                    _scrollsize = _scrollsize - 5;
+                    $(window).scrollTop(_scrollsize);
+                    if (_scrollsize <= 0)
+                        clearInterval(_timer);
+                }, 1);
+            });
+        }
+    </script>
+    <title>@ViewBag.Title</title>
+
+    <style>
+        input:invalid, textarea:invalid {
+            background-color: #ffdddd;
+        }
+
+        form:invalid {
+            border: 2px solid #ffdddd;
+        }
+
+        input:valid, textarea:valid {
+            background-color: #ddffdd;
+        }
+
+        form:valid {
+        }
+
+        input:required, textarea:required {
+            border-color: #800000;
+            border-width: 1px;
+        }
+
+            input:required:invalid, textarea:required:invalid {
+                border-color: #C00000;
+            }
+    </style>
+
+
+    @RenderSection("ViewScripts", false)
+</head>
+<body>
+    <div class="container-fluid" style="font-family:'Adobe Arabic';">
+        <div class="row" style="font-size:18px">
+
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="../Home/Index">صفحه اصلی</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+
+
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="../Customer/Index">
+                                        مدیریت کاربران
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="../Customer/Index">لیست کاربران</a></li>
+                                        <li><a href="../Customer/Register">ثبت جدید</a></li>
+
+                                    </ul>
+                                </li>
+
+
+                                <li><a href="../Commodity/Index">مدیریت سیگنال</a></li>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="../Factor/Index">
+                                        مدیریت سیگنال 
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="../Factor/Index">لیست سیگنال ها</a></li>
+                                        <li><a href="../Factor/Register">ثبت جدید</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">مدیریت کابران</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-left">
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> @User.Identity.Name</a></li>
+                                <li><a href="~/Account/LogOut"><span class="glyphicon glyphicon-log-out"></span> خروج</a></li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-sm-1">
+                @RenderSection("ViewImage", false)
+
+            </div>
+            <div class="col-sm-10">
+                @RenderBody()
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <div class="row">
+            <img src="~/Images/Loading.gif" style="height:50px;width:50px;display:none;margin:0 auto;" id="Loading" />
+
+        </div>
+    </div>
+    <img id="imgarrow" src="~/Images/arrow-up-icon.png" style="display:none;cursor:pointer;position:fixed;height:30px;width:30px;right:10px;bottom:10px;" />
+
+</body>
+</html>

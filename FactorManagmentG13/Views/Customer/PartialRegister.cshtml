@@ -1,0 +1,94 @@
+﻿
+    <script>
+        window.onload = Load;
+
+
+
+        function Load()
+        {
+            SetValidation(formCustomer);
+
+            @*var Customer = JSON.parse('@Html.Raw(ViewBag.Customer)');
+            if(Customer!=null)
+            {
+                CustomerFullName.value = Customer.CustomerFullName;
+                Tel.value = Customer.Tel;
+                Mobile.value = Customer.Mobile;
+                Address.value = Customer.Address;
+                ID.value = Customer.ID;
+                PicMember.src = "data:image/png;base64, "+'@Html.Raw(ViewBag.Picture)';
+            }*@
+        }
+
+        function Register()
+        {
+            if (!CheckValidation(formCustomer))
+            {
+                alert("اطلاعات معتبر نیست");
+                return;
+            }
+            formCustomer.submit();
+        }
+
+        function SelectPic()
+        {
+            var _filereader = new FileReader();
+            _filereader.onload = function () {
+                PicMember.src = _filereader.result;
+            };
+            _filereader.readAsDataURL(FilePic.files[0]);
+        }
+    </script>
+
+<div class="text-center" style="font-family:'Adobe Arabic'">
+    <h2 class="well">ثبت مشتری</h2>
+    <form id="formCustomer" action="/Customer/Register" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" id="ID" name="ID" value="0" />
+        <table class="table table-responsive">
+            <tr>
+                <td style="width:20%"><label for="CustomerFullName">نام و نام خانوادگی:</label></td>
+                <td style="width:40%"><input type="text" required data-display="نام و نام خانوادگی" id="CustomerFullName" name="CustomerFullName" class="form-control" /></td>
+                <td style="width:40%"><label id="ValidCustomerFullName"></label></td>
+            </tr>
+            <tr>
+                <td style="width:20%"><label for="Tel">تلفن:</label></td>
+                <td style="width:40%"><input type="text" required data-display="تلفن" id="Tel" name="Tel" class="form-control" /></td>
+                <td style="width:40%"><label id="ValidTel"></label></td>
+            </tr>
+            <tr>
+                <td style="width:20%"><label for="Mobile">شماره همراه:</label></td>
+                <td style="width:40%"><input type="text" data-remote="CheckMobile" required data-display="شماره همراه" id="Mobile" name="Mobile" class="form-control" /></td>
+                <td style="width:40%"><label id="ValidMobile"></label></td>
+            </tr>
+            <tr>
+
+                <td style="width:20%"><label for="Address">آدرس:</label></td>
+                <td style="width:40%"><textarea id="Address" required data-display="آدرس" name="Address" class="form-control"></textarea></td>
+                <td style="width:40%"><label id="ValidAddress"></label></td>
+            </tr>
+            <tr>
+
+                <td style="width:20%"><label for="Address">عکس:</label></td>
+                <td style="width:40%">
+                    <img src="~/Images/Actions-list-add-icon.png" onclick="return FilePic.click()" style="height:20px;width:20px;cursor:pointer;" />
+                    <input id="FilePic" type="file" accept="image/*" style="display:none;" onchange="SelectPic()" name="FilePic" />
+                    <img id="PicMember" style="height:40px;width:40px;" />
+                </td>
+                <td style="width:40%"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>
+                    <button type="button" onclick="Register()" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;ثبت</button>
+                    <a class="btn btn-primary" href="/Customer/Index">بازگشت&nbsp;&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></a>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+</div>
+
+

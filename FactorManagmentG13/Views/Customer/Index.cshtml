@@ -1,0 +1,104 @@
+﻿@{
+    Layout = "~/Views/Shared/_layout.cshtml";
+    ViewBag.Title = "لیست کاربران";
+}
+
+
+@section ViewScripts
+   {
+    <script>
+
+    var ListFactors = [];
+    window.onload = Load;
+
+    function Load() {
+      
+        ListFactors = JSON.parse('@Html.Raw(ViewBag.ListFactors)');
+        ShowCustomers();
+    }
+
+    function ShowCustomers() {
+        var _ListCustomer = JSON.parse('@Html.Raw(ViewBag.ListCustomer)');
+       
+        MyGrid(_ListCustomer, DivData,
+            [{ Data: "CustomerFullName", Title: "نام و نام خانوادگی" }, { Data: "Tel", Title: "تلفن" }, { Data: "Mobile", Title: "همراه" }, { Data: "Address", Title: "آدرس" }, { Data: "ID", Title: "ID" }],
+            [{ Text: "ویرایش", Icon: "edit", Event: Edit }, { Text: "حذف", Icon: "remove", Event: Remove }]
+            , { Selected: true, RowNumber: true, SelectEvent: SelectedRow, IsNavigated: true });
+    }
+
+    var time = null;
+    var interval = null;
+    function SelectedRow(CustomerID) {
+        var List = [];
+        for (var i in ListFactors) {
+            if (ListFactors[i].CustomerID == CustomerID) {
+                List[List.length] = ListFactors[i];
+            }
+        }
+        if (List.length == 0) {
+            DivDataFactors.innerHTML = '<h2 class="well text-center" style="font-size:22px;">فاکتوری برای این مشتری وجود ندارد</h2>';
+        }
+        else
+            MyGrid(List, DivDataFactors, [{ Data: "FactorCode", Title: "کد فاکتور" }, { Data: "FactorDate", Title: "تاریخ" }, { Data: "ID", Title: "ID" }], [{ Text: "مشاهده سیگنال ها", Icon: "search", Event: DisplayCommodities }], { RowNumber: true });
+
+
+        DivDataFactors.style.opacity = 1;
+        if (time != null)
+            clearTimeout(time);
+        if (interval != null)
+            clearInterval(interval);
+
+        time = setTimeout(function () {
+            var Opacity = 1;
+            interval = setInterval(function () {
+                if (Opacity <= 0) {
+                    DivDataFactors.innerHTML = "";
+                    clearInterval(interval);
+
+                }
+                Opacity -= 0.01;
+                DivDataFactors.style.opacity = Opacity;
+            }, 2);
+
+        }, 20000);
+    }
+
+    function DisplayCommodities(FactorID) {
+
+        var _width = window.innerWidth * 0.7;
+        // var _left = window.innerWidth * 0.15;
+        window.open("/Customer/GetCommidity/" + FactorID, "_blank", "width=" + _width + ",height=300,top=80,left=100");
+    }
+
+    function Edit(CustomerID) {
+        location.href = "/Customer/Register/" + CustomerID;
+
+    }
+
+    function Remove(CustomerID) {
+        if (!confirm("آیا عملیات انجام شود"))
+            return;
+
+        ID.value = CustomerID;
+        FormRemove.submit();
+    }
+    </script>
+}
+
+
+
+<div class="MainDiv text-center" >
+    <h2 class="well text-center" style="font-size:22px;">لیست مشتریان</h2>
+    <a href="/Customer/Register" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>&nbsp;ثبت جدید</a>
+    <div id="DivData">
+
+    </div>
+    <hr />
+    <div id="DivDataFactors" style="width:70%;margin:10px auto;">
+
+    </div>
+</div>
+<form id="FormRemove" action="/Customer/Remove" method="post">
+    <input type="hidden" value="0" id="ID" name="ID" />
+</form>
+
